@@ -8,6 +8,7 @@ require_relative 'SearchResult'
 
 class SearchEngine
 	def initialize
+		@cookies = {}
 		@fieldOrder = [:url, :title, :description]
 	end
 	
@@ -28,7 +29,7 @@ class SearchEngine
 	
 	def search(term)
 		url = getURL(CGI.escape(term))
-		data = Nil.httpDownload(url)
+		data = Nil.httpDownload(url, @cookies)
 		return nil if data == nil
 		output = []
 		data.scan(@pattern) do |match|
